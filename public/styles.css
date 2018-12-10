@@ -1,0 +1,304 @@
+
+
+body {
+
+    font-family: "Arial";
+
+    margin: 0px;
+
+}
+
+img.geek-logo {
+
+    height: 100%;
+    width: auto;
+
+    margin-left: 10px;
+    margin-right: 10px;
+
+}
+
+img.arrow {
+
+    width: 50px;
+    height: 50px;
+
+    transform: rotate(180deg);
+
+    transition-property: transform;
+    transition-duration: 1s;
+
+    align-items: flex-end;
+
+}
+
+img.arrow.active {
+
+    transform: rotate(0deg);
+
+}
+
+.orange {
+
+    background-color: #FF5500;
+
+}
+
+.topBar {
+
+    background-color: #FF5500;
+
+    margin-top: 0px;
+
+    border-bottom: 1px solid #ccc;
+
+}
+
+.top-background {
+
+    padding: 10px;
+    padding-top: 0px;
+
+    background-color: #FF5500;
+
+}
+
+.new-input-bar {
+
+    width: 100%;
+
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    display: flex;
+
+}
+
+.input-form {
+
+    width: 100%;
+
+}
+
+.date-select {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    align-items: flex-end;
+
+}
+
+.id-entry-look {
+
+    width: 20%;
+
+}
+
+.notes-entry-look {
+
+    width: 70%
+
+}
+
+
+
+.logo {
+
+    height: 50px;
+    width: 100%;
+
+    float: left;
+
+    margin: 5px;
+    padding: 0px;
+    padding-right: 20px;
+    padding-bottom: 5px;
+    margin-left: -10px;
+
+    display: flex;
+
+    align-content: flex-end;
+
+    background-color: inherit;
+
+}
+
+.title {
+
+    background-color: inherit;
+
+    align-content: flex-end;
+
+    width: 100%;
+
+    margin-bottom: 5px;
+
+}
+
+.input {
+
+    font-size: 15px;
+
+    margin: 5px;
+    padding: 5px;
+
+    border-radius: 5px;
+
+    border: 0px;
+
+    display: inline;
+
+    background-color: white;
+
+    color: #555;
+
+}
+
+button.input {
+
+    background-color: black;
+
+    color: #FF5500;
+
+}
+
+button.input.update-button {
+
+    display: inline;
+
+    color: white;
+
+}
+
+.input-bar {
+
+    width: 20px;
+    height: 3px;
+
+    margin: 5px;
+
+    background-color: #555;
+
+    border: 1px solid #FF5500;
+
+}
+
+.main-body {
+
+    width: 80%;
+    margin: 0 auto;
+
+    padding: 5px;
+
+}
+
+.content-table {
+
+    width: 100%
+
+}
+
+.content-row th {
+
+    width: 20%;
+
+    padding: 5px;
+    margin: 5px;
+
+    border-top: black 5px;
+
+}
+
+.content-table td {
+
+    padding: 5px;
+    margin: 5px;
+
+}
+
+.content-table td.mid {
+
+    width: 65%;
+
+}
+
+.content-table td.end {
+
+    min-width: 115px;
+    max-width: 15%
+
+}
+
+table {
+
+    border-collapse: collapse;
+
+}
+
+th, td {
+
+    border-bottom: 1px solid #ccc;
+    border-left: 0px;
+    border-right: 0px;
+
+    margin-left: 0px;
+    margin-right:0px;
+
+}
+
+tr:hover th, tr:hover td {
+
+    background-color: #eee;
+
+    transition-property: background-color;
+    transition-duration: 1s;
+
+}
+
+tr input. tr button {
+
+    height: auto;
+
+    transition: height 1s;
+
+}
+
+tr.active input, tr.active button, tr.active td div {
+
+    height: 0px;
+    display: none;
+
+    transition: height 1s;
+}
+
+.content-row.active th.content-head {
+
+    width: 100%;
+    /*transition: width 1s;*/
+
+}
+
+.note {
+
+    display: flex;
+    flex-wrap: wrap;
+    overflow-wrap: break-word;
+    word-break: break-all;
+
+    overflow: auto;
+
+}
+
+.delete {
+
+    display: inline;
+
+}
+
+.notes-update-look {
+
+    width: 95%;
+
+}

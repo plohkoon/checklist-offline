@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <link rel = "stylesheet" type = "text/css" href = "styles.css">
+
+        <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <script>window.$ = window.jquery = require("jquery");</script>
+
+        <script src = "scripts.js"></script>
+
+        <title>Notes for <%- date %></title>
+
+    </head>
+
+    <body>
+
+        <div class = "top-background">
+
+            <div class = "topBar" id = "topBar">
+
+                <div class = "new-input-bar">
+
+                    <form method = "post" class = "input-form">
+
+                        <input type = "hidden" name = "changeType" value = "add" required>
+
+                        <input type = "text" name = "identifier" placeholder = "Unit Identifier" class = "input id-entry-look" required>
+
+                        <input type = "text" name = "notes" placeholder = "Notes" class = "input notes-entry-look" required>
+
+                        <button type = "submit" class = "input">Submit</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+            <div class = "topBar">
+
+                <div class = "logo">
+
+                    <img src = "Geek.png" class = "geek-logo">
+
+                    <h1 class = "title">Geek Squad Notes</h1>
+
+                    <div class = "date-select">
+
+                        <form method = "get" class = "input-form date-select orange" id="date-selector">
+
+                            <input type = "date" name = "date" id = "date" value = <%- date %> class = "input" required>
+
+                        </form>
+
+                    </div>
+
+                    <img src = "arrow.png" class = "arrow active" id = "arrow"></img>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div  class = main-body>
+
+                <!-- <table class = "content-table"> -->
+
+                    <% for(var i = 0; i < data.length; i++) { %>
+
+                        <div class = "content-table">
+
+                            <table class = "content-table">
+
+                                <tr class = "content-table content-row height-transition">
+
+                                    <th class = "content-head content-row-clickable"><%= data[i].note_id %></th>
+
+                                    <td class = "mid content-row-clickable">
+
+                                        <div class = "note">
+
+                                            <%= data[i].note %>
+
+                                        </div>
+
+                                    </td>
+
+                                    <td class = "end">
+
+                                        <div>
+
+                                        <form method = "post" class = "delete">
+
+                                            <input type = "hidden" name = "uniqueID" value = "<%= data[i].id %>">
+                                            <input type = "hidden" name = "changeType" value = "delete">
+                                            <input type = "hidden" name = "identifier" value = "<%= data[i].note_id %>" >
+                                            <input type = "hidden" name = "notes" value = "<%= data[i].note %>" >
+
+                                            <button type = "submit" class = "input">Delete</button>
+
+                                        </form>
+
+                                        <button id = "button<%= i %>" class = "input update-button">
+
+                                            Edit
+
+                                        </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                <tr class = "content-table update-row active" id = "updateRow<%= i %>">
+
+                                    <th></th>
+
+                                    <form method = "post">
+
+                                        <td class = "mid">
+
+                                            <input type = "hidden" name = "uniqueID" value = "<%= data[i].id %>">
+                                            <input type = "hidden" name = "changeType" value = "edit">
+                                            <input type = "hidden" name = "identifier" value = "<%= data[i].note_id %>">
+                                            <input type = "text" name = "notes" placeholder = "Updated Text" class = "input notes-update-look">
+
+                                        </td>
+
+                                        <td class = "end">
+
+                                            <button type = "submit" class = "input">Update</button>
+
+                                        </td>
+
+                                    </form>
+
+                                </tr>
+
+                            </table>
+
+                        </div>
+
+                    <% } %>
+
+                <!-- </table> -->
+
+        </div>
+
+    </body>
+
+    <footer>
+
+    </footer>
+
+</html>
