@@ -6,6 +6,8 @@
 
         <link rel = "stylesheet" type = "text/css" href = "styles.css">
 
+        <link rel = "shortcut icon" href = "Geek.ico" type = "image/x-icon">
+
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <script>window.$ = window.jquery = require("jquery");</script>
@@ -18,7 +20,11 @@
 
     <body>
 
+        <!-- This is the HTML for the top bar including a date selector and new entry input -->
+
         <div class = "top-background">
+
+            <!-- HTML for the new entry fields at the top of the page -->
 
             <div class = "topBar" id = "topBar">
 
@@ -39,6 +45,8 @@
                 </div>
 
             </div>
+
+            <!-- HTML for the date selector, logo and header of the page -->
 
             <div class = "topBar">
 
@@ -65,6 +73,8 @@
             </div>
 
         </div>
+
+        <!-- main body table where the guts of the page sit -->
 
         <div  class = main-body>
 
@@ -94,28 +104,34 @@
 
                                         <div>
 
-                                        <form method = "post" class = "delete">
+                                        <!-- This form does not need to be visible other than the confirmation -->
 
-                                            <input type = "hidden" name = "uniqueID" value = "<%= data[i].id %>">
-                                            <input type = "hidden" name = "changeType" value = "delete">
-                                            <input type = "hidden" name = "identifier" value = "<%= data[i].note_id %>" >
-                                            <input type = "hidden" name = "notes" value = "<%= data[i].note %>" >
+                                            <form method = "post" class = "delete">
 
-                                            <button type = "submit" class = "input">Delete</button>
+                                                <input type = "hidden" name = "uniqueID" value = "<%= data[i].id %>">
+                                                <input type = "hidden" name = "changeType" value = "delete">
+                                                <input type = "hidden" name = "identifier" value = "<%= data[i].note_id %>" >
+                                                <input type = "hidden" name = "notes" value = "<%= data[i].note %>" >
 
-                                        </form>
+                                                <button type = "submit" class = "input">Delete</button>
 
-                                        <button id = "button<%= i %>" class = "input update-button">
+                                            </form>
 
-                                            Edit
+                                            <!-- button to open the update field of the entry -->
 
-                                        </button>
+                                            <button id = "button<%= i %>" class = "input update-button">
+
+                                                Edit
+
+                                            </button>
 
                                         </div>
 
                                     </td>
 
                                 </tr>
+
+                                <!-- a hidden update row that gets revealed when it is called on -->
 
                                 <tr class = "content-table update-row active" id = "updateRow<%= i %>">
 

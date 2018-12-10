@@ -1,6 +1,6 @@
 
 $(function() {
-
+    //a function to open up the edit field when its respective button is pressed
     $(".update-button").click(function() {
 
         if( $(this).text() === "Edit") {
@@ -19,7 +19,7 @@ $(function() {
         }
 
     })
-
+    //opens and closes the top entry field and rotates the arrow
     $("#arrow").click(function() {
 
         if($("#topBar").css("margin-top") !== "0px") {
@@ -38,13 +38,13 @@ $(function() {
         }
 
     })
-
+    //when the date field changes auto submit the form
     $("#date").change(function() {
 
         $("#date-selector").submit();
 
     })
-
+    //when the row is clicked toggles a minimize to just the header centered on the row
     $(".content-row-clickable").click(function() {
 
         if($(this).parent().hasClass("active")) {
