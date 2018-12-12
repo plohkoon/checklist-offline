@@ -1,5 +1,5 @@
 
-$(function() {
+$(() => {
     //a function to open up the edit field when its respective button is pressed
     $(".update-button").click(function() {
 
@@ -20,7 +20,7 @@ $(function() {
 
     })
     //opens and closes the top entry field and rotates the arrow
-    $("#arrow").click(function() {
+    $("#arrow").click(() => {
 
         if($("#topBar").css("margin-top") !== "0px") {
 
@@ -32,7 +32,7 @@ $(function() {
         else {
 
             let height = $("#topBar").height();
-
+            //calculates how much to hide by based on the height of the topbar element
             $("#topBar").animate({"margin-top": "-" + height + "px"}, "slow");
 
             $("#arrow").removeClass("active");
@@ -41,7 +41,7 @@ $(function() {
 
     })
     //when the date field changes auto submit the form
-    $("#date").change(function() {
+    $("#date").change(() => {
 
         $("#date-selector").submit();
 
@@ -59,7 +59,10 @@ $(function() {
             $(this).parent().addClass("active");
 
         }
-
+        /*
+        if the edit field is open (its closed when it has class active) ensures
+        that it closes properly to prevent weird table formatting
+        */
         if( !$(this).closest("tr").next().hasClass("active") ) {
 
             $(this).next(".end").find(".update-button").html("Edit");
