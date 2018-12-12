@@ -3,7 +3,7 @@ $(function() {
     //a function to open up the edit field when its respective button is pressed
     $(".update-button").click(function() {
 
-        if( $(this).text() === "Edit") {
+        if( $(this).closest("tr").next().hasClass("active") ) {
 
             $(this).html("Close")
 
@@ -31,7 +31,9 @@ $(function() {
         }
         else {
 
-            $("#topBar").animate({"margin-top": "-" + $("#topBar").css("height")}, "slow");
+            let height = $("#topBar").height();
+
+            $("#topBar").animate({"margin-top": "-" + height + "px"}, "slow");
 
             $("#arrow").removeClass("active");
 
@@ -55,6 +57,14 @@ $(function() {
         else {
 
             $(this).parent().addClass("active");
+
+        }
+
+        if( !$(this).closest("tr").next().hasClass("active") ) {
+
+            $(this).next(".end").find(".update-button").html("Edit");
+
+            $(this).closest("tr").next().addClass("active");
 
         }
 

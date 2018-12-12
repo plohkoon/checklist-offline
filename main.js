@@ -51,7 +51,7 @@ const getDate = () => {
 
 }
 //opens a connection to the data base as read write
-const db = new sqlite.Database("./NOTES.db", sqlite.OPEN_READWRITE, (err) => {
+const db = new sqlite.Database(__dirname + "/NOTES.db", sqlite.OPEN_READWRITE, (err) => {
 
     if(err) {
 
@@ -96,7 +96,7 @@ db.all("select name from sqlite_master where type = 'table' and name = 'notes'",
 
 });
 //serves the local scripts, images and css
-serv.use(express.static("public"));
+serv.use(express.static(__dirname + "/public"));
 
 //main route anytime there is a date in the path
 serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
@@ -132,7 +132,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
                 console.log(data);
 
-                res.render('main.ejs', data);
+                res.render(__dirname + '/views/main.ejs', data);
 
             });
 
@@ -180,7 +180,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             console.log(sqlQuery);
 
-            /*
+            /*old mysql code
             old mysql code
             con.query(sqlQuery, function(err, result) {
 
@@ -238,7 +238,6 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
         }
 
-
         db.all(sqlQuery, [], (err, rees) => {
 
             if(err) {
@@ -248,7 +247,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             }
 
-        })
+        });
 
         res.redirect(req.path);
 
@@ -272,7 +271,7 @@ serv.get("/*", (req, res) => {
 
 })
 
-serv.listen(port);
+const openPort = serv.listen(port);
 
 /*
 Now we get into the desktop app initializations
@@ -284,21 +283,41 @@ let win;
 
 const createWindow = () => {
     //opens the window and loads the root URL
-    win = new BrowserWindow({width: 800, height: 800});
+    win = new BrowserWindow({width: 1300, height: 1100, icon: __dirname + "public/Geek.ico"});
 
     win.loadURL("http://localhost:8080/");
-    //when the window is closed dereferences the variable
+    //when the window is closed dereferences the variable and closes everything
     win.on('close', () => {
 
         win = null;
 
+        openPort.close();
+
+        console.log("Server port closed")
+
+        db.close();
+
+        console.log("DB connection close");
+
+        app.quit();
+
+        console.log("Application successfully quit");
+
     });
 
 }
+
 //when the app is ready and willing creates the window and connects to server
 app.on('ready', createWindow);
+
 //terminates the program and DB connections when the window is closed
-app.on('all-windows-closed', () => {
+/*app.on('all-windows-closed', () => {
+
+    win = null;
+
+    openPort.close();
+
+    console.log("Server port closed")
 
     db.close();
 
@@ -308,4 +327,4 @@ app.on('all-windows-closed', () => {
 
     console.log("Application successfully quit");
 
-});
+});*/

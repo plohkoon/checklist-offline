@@ -2,9 +2,11 @@
 
 body {
 
-    font-family: "Arial";
+    font-family: "Inconsolata", monospace;
 
     margin: 0px;
+
+    background-color: #fff9ef;
 
 }
 
@@ -25,6 +27,8 @@ img.arrow {
 
     transform: rotate(180deg);
 
+    margin-right: 15px;
+
     transition-property: transform;
     transition-duration: 1s;
 
@@ -44,11 +48,23 @@ img.arrow.active {
 
 }
 
+.titles {
+
+    width: 100%;
+
+    background-color: #FF5500;
+
+
+}
+
 .topBar {
 
     background-color: #FF5500;
 
-    margin-top: 0px;
+    margin: 0px;
+
+    padding-left: 20px;
+    padding-right: 20px;
 
     border-bottom: 1px solid #ccc;
 
@@ -56,8 +72,6 @@ img.arrow.active {
 
 .top-background {
 
-    padding: 10px;
-    padding-top: 0px;
 
     background-color: #FF5500;
 
@@ -71,6 +85,8 @@ img.arrow.active {
     align-items: flex-end;
 
     display: flex;
+
+    padding: 10px;
 
 }
 
@@ -111,11 +127,8 @@ img.arrow.active {
 
     float: left;
 
-    margin: 5px;
-    padding: 0px;
-    padding-right: 20px;
-    padding-bottom: 5px;
-    margin-left: -10px;
+    margin: 0px;
+    padding: 10px;
 
     display: flex;
 
@@ -127,13 +140,18 @@ img.arrow.active {
 
 .title {
 
+    font-family: "Orbitron", sans-serif;
+
+    letter-spacing: 2px;
+
     background-color: inherit;
 
     align-content: flex-end;
 
     width: 100%;
 
-    margin-bottom: 5px;
+    margin: 0px;
+    margin-top: 3px;
 
 }
 
@@ -206,6 +224,8 @@ button.input.update-button {
 
     padding: 5px;
     margin: 5px;
+
+    letter-spacing: 1px;
 
     border-top: black 5px;
 
@@ -286,6 +306,7 @@ tr.active input, tr.active button, tr.active td div {
     flex-wrap: wrap;
     overflow-wrap: break-word;
     word-break: break-all;
+    white-space: normal;
 
     overflow: auto;
 
@@ -300,5 +321,81 @@ tr.active input, tr.active button, tr.active td div {
 .notes-update-look {
 
     width: 95%;
+    height: auto;
+
+    overflow-wrap: break-word;
+    word-break: break-all;
+
+    white-space: normal;
+
+}
+
+tr.active .notes-update-look {
+
+    display: none;
+
+}
+
+textarea {
+
+    resize: none;
+
+    border: 1px solid #ccc !important;
+
+}
+
+.footer {
+
+    position: fixed;
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    bottom: 0;
+
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+
+    background-color: white;
+
+}
+
+.footer div {
+
+    display: flex;
+
+    width: 100%;
+
+    justify-content: flex-end;
+
+
+}
+
+.footer div p {
+
+    color: #ccc;
+
+    display: flex;
+
+    justify-content: flex-end;
+    align-items: flex-end;
+
+    width: 100%;
+
+    margin: 10px;
+
+}
+
+.footer .footer-logo {
+
+    height: 30px;
+    width: auto;
+    margin: 5px;
+    border: 0px;
+
 
 }
