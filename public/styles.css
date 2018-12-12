@@ -293,6 +293,13 @@ tr.active input, tr.active button, tr.active td div {
     transition: height 1s;
 }
 
+th.content-head {
+
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
 .content-row.active th.content-head {
 
     width: 100%;
