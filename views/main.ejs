@@ -8,6 +8,8 @@
 
         <link rel = "shortcut icon" href = "Geek.ico" type = "image/x-icon">
 
+        <link href="https://fonts.googleapis.com/css?family=Orbitron|Inconsolata|PT+Serif" rel="stylesheet">
+
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <script>window.$ = window.jquery = require("jquery");</script>
@@ -48,13 +50,17 @@
 
             <!-- HTML for the date selector, logo and header of the page -->
 
-            <div class = "topBar">
+            <div class = "titles">
 
                 <div class = "logo">
 
                     <img src = "Geek.png" class = "geek-logo">
 
-                    <h1 class = "title">Geek Squad Notes</h1>
+                    <div class = "title">
+
+                        <h1 class = "title">Geek Squad Notes</h1>
+
+                    </div>
 
                     <div class = "date-select">
 
@@ -144,7 +150,9 @@
                                             <input type = "hidden" name = "uniqueID" value = "<%= data[i].id %>">
                                             <input type = "hidden" name = "changeType" value = "edit">
                                             <input type = "hidden" name = "identifier" value = "<%= data[i].note_id %>">
-                                            <input type = "text" name = "notes" placeholder = "Updated Text" class = "input notes-update-look">
+                                            <!-- <input type = "text" name = "notes" placeholder = "Updated Text" class = "input notes-update-look" value = "<%= data[i].note %>"> -->
+
+                                            <textarea value = "<%= data[i].note %>" name = "notes" class = "input notes-update-look" wrap = "soft"><%= data[i].note %></textarea>
 
                                         </td>
 
@@ -165,6 +173,18 @@
                     <% } %>
 
                 <!-- </table> -->
+
+        </div>
+
+        <div class = "footer">
+
+            <img src = "Geek.png" class = "footer-logo">
+
+            <div>
+
+                <p>Created and developed by Precinct 0702, Agent Sandvar and Agent Huber</p>
+
+            </div>
 
         </div>
 
