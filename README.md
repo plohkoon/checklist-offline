@@ -1,4 +1,4 @@
-On first install run "npm install" and then "npm run rebuild" to get dependencies all right and proper
+On first install run "npm install" and then "npm run rebuild" to get dependencies all right and proper and properly setup for Electron
 
 To run a test version of the program run "npm start" in admin CMD prompt
 
