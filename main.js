@@ -283,7 +283,7 @@ let win;
 
 const createWindow = () => {
     //opens the window and loads the root URL
-    win = new BrowserWindow({width: 1300, height: 1100, icon: __dirname + "public/Geek.ico"});
+    win = new BrowserWindow({width: 1300, height: 1100, icon: __dirname + "/public/Geek.ico"});
 
     win.loadURL("http://localhost:8080/");
     //when the window is closed dereferences the variable and closes everything
