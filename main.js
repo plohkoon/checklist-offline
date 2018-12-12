@@ -5,8 +5,6 @@ const   url = require('url'),
         path = require('path'),
         bodyParser = require('body-parser'),
         ejs = require('ejs'),
-        sql = require('sql'),
-        mysql = require('mysql'),
         sqlstring = require('sqlstring'),
         electron = require('electron'),
         sqlite = require('sqlite3').verbose();
@@ -39,7 +37,7 @@ con.connect(function(err) {
 
 });
 */
-
+//A simple function to get todays date in the proper format
 const getDate = () => {
 
     let     date = new Date(),
@@ -110,7 +108,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
         }
         //else sets up the data to be rendered in main.ejs
         else {
-
+            //extracts the date of the request from the path
             date = (req.path).slice(1,req.path.length);
 
             db.all("select id, note_id, note from notes where date = " + sqlstring.escape(date) + ";", (err, rows) => {
@@ -135,6 +133,8 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
                 res.render(__dirname + '/views/main.ejs', data);
 
             });
+
+            console.log("rendered new Page");
 
             /*
             old mysql code
@@ -178,6 +178,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             sqlQuery = "insert into notes (date, note_id, note) values (\"" + date + "\", " + sqlstring.escape(id) + ", " + sqlstring.escape(notes) + ")";
 
+            console.log("Built insert query");
             console.log(sqlQuery);
 
             /*old mysql code
@@ -197,6 +198,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             sqlQuery = "update notes set note = " + sqlstring.escape(notes) + " where date = \"" + date + "\" and id = " + sqlstring.escape(uniqueid);
 
+            console.log("Built update query");
             console.log(sqlQuery);
 
             /*
@@ -215,6 +217,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             sqlQuery = "delete from notes where date = \"" + date + "\" and id = " + sqlstring.escape(uniqueid);
 
+            console.log("Built delete query");
             console.log(sqlQuery);
 
             /*
@@ -234,11 +237,12 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
         */
         else {
 
+            console.log("Got a bad post request, skipping query and rerendering page");
             res.redirect(req.path);
 
         }
-
-        db.all(sqlQuery, [], (err, rees) => {
+        //runs the query defined earlier
+        db.all(sqlQuery, [], (err, res) => {
 
             if(err) {
 
@@ -248,6 +252,8 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
             }
 
         });
+
+        console.log("Query Executed rerendering page");
 
         res.redirect(req.path);
 
@@ -259,18 +265,20 @@ gets todays date in the correct format and redirects to the respective page
 */
 serv.get('/', (req, res) => {
     //fall back for when the root is empty
-    console.log('/' + getDate())
+    console.log("Got root request rendering" + '/' + getDate())
 
     res.redirect('/' + getDate());
 
 })
 //anytime a different path is put in just redirects to todays date
-serv.get("/*", (req, res) => {
+serv.all("/*", (req, res) => {
+
+    console.log("Got a bad request defaulting to todays date, rendering todays date");
 
     res.redirect('/' + getDate());
 
 })
-
+//ensures the server listen is referenced so the port can be closed on app close
 const openPort = serv.listen(port);
 
 /*
@@ -286,6 +294,7 @@ const createWindow = () => {
     win = new BrowserWindow({width: 1300, height: 1100, icon: __dirname + "/public/Geek.ico"});
 
     win.loadURL("http://localhost:8080/");
+    console.log("Window created, page loaded")
     //when the window is closed dereferences the variable and closes everything
     win.on('close', () => {
 
