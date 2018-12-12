@@ -20,8 +20,6 @@
             "better-sqlite3": "^5.0.1",
             "body-parser": "^1.18.3",
             "ejs": "^2.6.1",
-            "electron": "^3.0.10",
-            "electron-rebuild": "^1.8.2",
             "express": "^4.16.4",
             "http": "0.0.0",
             "jquery": "^3.3.1",
@@ -33,5 +31,8 @@
             "sqlstring": "^2.3.1",
             "url": "^0.11.0"
       },
-      "devDependencies": {}
+      "devDependencies": {
+            "electron": "^3.0.10",
+            "electron-rebuild": "^1.8.2"
+      }
 }
