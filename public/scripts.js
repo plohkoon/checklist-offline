@@ -16,6 +16,8 @@ $(() => {
 
             $(this).closest("tr").next().addClass("active");
 
+            $(this).closest("tr").next().find("form").trigger('reset');
+
         }
 
     })
@@ -68,6 +70,8 @@ $(() => {
             $(this).next(".end").find(".update-button").html("Edit");
 
             $(this).closest("tr").next().addClass("active");
+
+            $(this).closest("tr").next().find("form").trigger('reset');
 
         }
 
