@@ -20,23 +20,8 @@ serv.set('view engine', 'ejs');
 
 
 
-/*
-old mysql connections
-const con = mysql.createConnection({
 
-                host: "localhost",
-                user: "notesApp",
-                password: "1234"
 
-            });
-
-con.connect(function(err) {
-
-    if(err) throw err;
-    console.log("connection successful");
-
-});
-*/
 //A simple function to get todays date in the proper format
 const getDate = () => {
 
@@ -136,25 +121,6 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             console.log("rendered new Page");
 
-            /*
-            old mysql code
-            con.query("select id, note_id, note from NOTES.notes where date=\"" + date + "\"", function(err, result) {
-
-                if(err) throw err;
-
-                let data = {
-
-                                date: date,
-
-                                data: result
-
-                            };
-
-                console.log(data);
-
-                res.render('main.ejs', data);
-
-            });*/
         }
 
     })
@@ -181,17 +147,6 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
             console.log("Built insert query");
             console.log(sqlQuery);
 
-            /*old mysql code
-            old mysql code
-            con.query(sqlQuery, function(err, result) {
-
-                console.log(result);
-
-                if(err) throw err;
-
-            });
-            */
-
         }
         //sets the query to update the notes of one of the entries
         else if(changeType === "edit") {
@@ -201,16 +156,6 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
             console.log("Built update query");
             console.log(sqlQuery);
 
-            /*
-            old mysql code
-            con.query(sqlQuery, function(err, result) {
-
-                console.log(result);
-
-                if(err) throw err;
-
-            });*/
-
         }
         //sets the query to delete the specified entry
         else if(changeType === "delete") {
@@ -219,16 +164,6 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             console.log("Built delete query");
             console.log(sqlQuery);
-
-            /*
-            old mysql code
-            con.query(sqlQuery, function(err, result) {
-
-                console.log(result);
-
-                if(err) throw err;
-
-            });*/
 
         }
         /*
@@ -318,22 +253,3 @@ const createWindow = () => {
 
 //when the app is ready and willing creates the window and connects to server
 app.on('ready', createWindow);
-
-//terminates the program and DB connections when the window is closed
-/*app.on('all-windows-closed', () => {
-
-    win = null;
-
-    openPort.close();
-
-    console.log("Server port closed")
-
-    db.close();
-
-    console.log("DB connection close");
-
-    app.quit();
-
-    console.log("Application successfully quit");
-
-});*/
