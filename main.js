@@ -18,9 +18,14 @@ serv.use(bodyParser.json());
 //changing the view engine to render EJS
 serv.set('view engine', 'ejs');
 
+//Squirrel SetupEvents
+const setupEvents = require(__dirname + "/setupEvents.js");
 
+if(setupEvents.handleSquirrelEvent()) {
 
+    return;
 
+}
 
 //A simple function to get todays date in the proper format
 const getDate = () => {
