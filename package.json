@@ -1,38 +1,55 @@
 {
-      "name": "checklist-local",
-      "version": "1.1.0",
-      "description": "\"A local version of geeksquad checklist app\"",
-      "main": "main.js",
-      "build": {
-            "addId": "com.geekNotes.app",
-            "productName": "Closing Notes",
-            "icon": "./public/Geek.ico"
-      },
-      "scripts": {
-            "test": "echo \"Error: no test specified\" && exit 1",
-            "start": "electron .",
-            "rebuild": "electron-rebuild -f -w better-sqlite3",
-            "make-app": "electron-packager . \"Closing Notes\" --platform=win32 --arch=x64 --overwrite --icon=./public/Geek.ico"
-      },
-      "author": "",
-      "license": "ISC",
-      "dependencies": {
-            "better-sqlite3": "^5.0.1",
-            "body-parser": "^1.18.3",
-            "ejs": "^2.6.1",
-            "express": "^4.16.4",
-            "http": "0.0.0",
-            "jquery": "^3.3.1",
-            "mysql": "^2.16.0",
-            "path": "^0.12.7",
-            "sql": "^0.78.0",
-            "sqlite": "^3.0.0",
-            "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
-            "sqlstring": "^2.3.1",
-            "url": "^0.11.0"
-      },
-      "devDependencies": {
-            "electron": "^3.0.10",
-            "electron-rebuild": "^1.8.2"
-      }
+    "name": "Closing-Notes",
+    "version": "1.1.0",
+    "description": "An offline Checklist app",
+    "main": "main.js",
+    "build": {
+        "appId": "com.geekNotes.app",
+        "ProductName": "Closing-Notes",
+        "icon": "./public/Geek.ico",
+        "ignore": "installers"
+    },
+    "author": {
+        "name": "Gregory Huber",
+        "email": "greg.huber@outlook.com"
+    },
+    "contributors": [
+        {
+            "name": "Leif Sandvar"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/plohkoon/checklist-offline"
+    },
+    "license": "ISC",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "electron .",
+        "rebuild": "electron-rebuild -f -w better-sqlite3",
+        "make-windows": "electron-packager . --platform=win32 --arch=x64 --overwrite --icon=./public/Geek.ico --ignore='installers'"
+    },
+    "dependencies": {
+        "better-sqlite3": "^5.0.1",
+        "body-parser": "^1.18.3",
+        "ejs": "^2.6.1",
+        "express": "^4.16.4",
+        "http": "0.0.0",
+        "jquery": "^3.3.1",
+        "path": "^0.12.7",
+        "sql": "^0.78.0",
+        "sqlite": "^3.0.0",
+        "sqlite3": "https://github.com/mapbox/node-sqlite3/tarball/master",
+        "sqlstring": "^2.3.1",
+        "url": "^0.11.0"
+    },
+    "devDependencies": {
+        "electron": "^3.0.10",
+        "electron-rebuild": "^1.8.2",
+        "electron-winstaller": "^2.7.0"
+    },
+    "files": [
+        "*/",
+        "!installers/*"
+    ]
 }
