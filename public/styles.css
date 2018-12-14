@@ -10,6 +10,13 @@ body {
 
 }
 
+textarea, input {
+
+    font-family: "Inconsolata", monospace !important;
+    font-size: 15px !important;
+
+}
+
 img.geek-logo {
 
     height: 100%;
@@ -54,6 +61,12 @@ img.arrow.active {
 
     background-color: #FF5500;
 
+    display: flex;
+
+    align-items: center;
+
+    height: auto;
+
 
 }
 
@@ -93,6 +106,10 @@ img.arrow.active {
 .input-form {
 
     width: 100%;
+
+    display: flex;
+
+    align-items: center;
 
 }
 
@@ -140,7 +157,9 @@ img.arrow.active {
 
 .title {
 
-    font-family: "Orbitron", sans-serif;
+    font-family: "Teko", sans-serif;
+
+    font-size: 40px;
 
     letter-spacing: 2px;
 
@@ -151,7 +170,6 @@ img.arrow.active {
     width: 100%;
 
     margin: 0px;
-    margin-top: 3px;
 
 }
 
@@ -171,6 +189,16 @@ img.arrow.active {
     background-color: white;
 
     color: #555;
+
+}
+
+.input .notes-entry-look {
+
+    font: "Inconsolata", monospace !important;
+
+    display: inline;
+
+    margin: auto;
 
 }
 
@@ -246,7 +274,7 @@ button.input.update-button {
 
 .content-table td.end {
 
-    min-width: 115px;
+    min-width: 130px;
     max-width: 15%
 
 }
@@ -311,8 +339,6 @@ th.content-head {
 
     display: flex;
     flex-wrap: wrap;
-    overflow-wrap: break-word;
-    word-break: break-all;
     white-space: normal;
 
     overflow: auto;
