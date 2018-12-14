@@ -38,6 +38,19 @@ const getDate = () => {
     return year + "-" + month + "-" + day;
 
 }
+
+const sqlEscape = (query) => {
+
+    let     escapedQuery = query.replace("\'", "''"),
+            cleansedQuery = sqlstring.escape(escapedQuery);
+
+    cleansedQuery = cleansedQuery.replace(/\\/g, "");
+    console.log(cleansedQuery);
+
+    return cleansedQuery;
+
+}
+
 //opens a connection to the data base as read write
 const db = new sqlite.Database(__dirname + "/NOTES.db", sqlite.OPEN_READWRITE, (err) => {
 
@@ -100,8 +113,8 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
         else {
             //extracts the date of the request from the path
             date = (req.path).slice(1,req.path.length);
-
-            db.all("select id, note_id, note from notes where date = " + sqlstring.escape(date) + ";", (err, rows) => {
+            // where date = " + date + ";
+            db.all("select id, note_id, note from notes where date = '" + date + "';", (err, rows) => {
 
                 if(err) {
 
@@ -147,7 +160,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
         //sets the query to an insert
         if(changeType === "add") {
 
-            sqlQuery = "insert into notes (date, note_id, note) values (\"" + date + "\", " + sqlstring.escape(id) + ", " + sqlstring.escape(notes) + ")";
+            sqlQuery = "insert into notes (date, note_id, note) values ('" + date + "', " + sqlEscape(id) + ", " + sqlEscape(notes) + ")";
 
             console.log("Built insert query");
             console.log(sqlQuery);
@@ -156,7 +169,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
         //sets the query to update the notes of one of the entries
         else if(changeType === "edit") {
 
-            sqlQuery = "update notes set note = " + sqlstring.escape(notes) + " where date = \"" + date + "\" and id = " + sqlstring.escape(uniqueid);
+            sqlQuery = "update notes set note = " + sqlEscape(notes) + " where date = '" + date + "' and id = " + sqlEscape(uniqueid);
 
             console.log("Built update query");
             console.log(sqlQuery);
@@ -165,7 +178,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
         //sets the query to delete the specified entry
         else if(changeType === "delete") {
 
-            sqlQuery = "delete from notes where date = \"" + date + "\" and id = " + sqlstring.escape(uniqueid);
+            sqlQuery = "delete from notes where date = '" + date + "' and id = " + sqlEscape(uniqueid);
 
             console.log("Built delete query");
             console.log(sqlQuery);
@@ -182,7 +195,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
         }
         //runs the query defined earlier
-        db.all(sqlQuery, [], (err, res) => {
+        db.run(sqlQuery, [], (err, res) => {
 
             if(err) {
 
@@ -191,9 +204,11 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
             }
 
+            console.log("query completed");
+
         });
 
-        console.log("Query Executed rerendering page");
+        console.log("Query performed rerendering page");
 
         res.redirect(req.path);
 
