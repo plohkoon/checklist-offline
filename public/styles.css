@@ -19,11 +19,13 @@ textarea, input {
 
 img.geek-logo {
 
-    height: 100%;
+    height: 50px;
     width: auto;
 
     margin-left: 10px;
     margin-right: 10px;
+
+    align-self: center;
 
 }
 
@@ -40,6 +42,8 @@ img.arrow {
     transition-duration: 1s;
 
     align-items: flex-end;
+
+    align-self: center;
 
 }
 
@@ -67,6 +71,9 @@ img.arrow.active {
 
     height: auto;
 
+    width: 100%;
+
+    align-self: stretch;
 
 }
 
@@ -81,12 +88,22 @@ img.arrow.active {
 
     border-bottom: 1px solid #ccc;
 
+    width: 100%;
+
+    align-self: stretch;
+
 }
 
 .top-background {
 
 
     background-color: #FF5500;
+    display: flex;
+
+    flex-wrap: wrap;
+
+    height: auto;
+
 
 }
 
@@ -121,6 +138,8 @@ img.arrow.active {
 
     align-items: flex-end;
 
+    align-self: center;
+
 }
 
 .id-entry-look {
@@ -139,7 +158,7 @@ img.arrow.active {
 
 .logo {
 
-    height: 50px;
+    height: auto;
     width: 100%;
 
     float: left;
@@ -170,6 +189,10 @@ img.arrow.active {
     width: 100%;
 
     margin: 0px;
+
+    display: block;
+
+    align-self: center;
 
 }
 
