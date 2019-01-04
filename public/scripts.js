@@ -76,5 +76,15 @@ $(() => {
         }
 
     })
+    $("textarea").keydown(function(key) {
+
+        if(key.keyCode === 13) {
+
+            key.preventDefault();
+            $(this).closest("form").submit();
+
+        }
+
+    })
 
 });
