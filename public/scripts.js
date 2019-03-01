@@ -1,5 +1,12 @@
 
 $(() => {
+    //function for setTimeout function
+    let timeoutFunc = () => {
+      $("#arrow").click();
+    }
+
+    let timeOut = setTimeout(timeoutFunc, 60000);
+
     //a function to open up the edit field when its respective button is pressed
     $(".update-button").click(function() {
 
@@ -30,6 +37,8 @@ $(() => {
 
             $("#arrow").addClass("active");
 
+            timeOut = setTimeout(timeoutFunc, 60000);
+
         }
         else {
 
@@ -38,6 +47,8 @@ $(() => {
             $("#topBar").animate({"margin-top": "-" + height + "px"}, "slow");
 
             $("#arrow").removeClass("active");
+
+            clearTimeout(timeOut);
 
         }
 
