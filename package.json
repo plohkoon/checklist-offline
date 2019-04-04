@@ -1,6 +1,6 @@
 {
     "name": "Closing-Notes",
-    "version": "1.1.1",
+    "version": "1.1.2",
     "description": "An offline Checklist app",
     "main": "main.js",
     "build": {
@@ -10,12 +10,17 @@
         "ignore": "installers"
     },
     "author": {
-        "name": "Gregory Huber",
-        "email": "greg.huber@outlook.com"
+        "name": "Precinct 702",
+        "email": "precinct0702@geeksquad.ca"
     },
     "contributors": [
         {
-            "name": "Leif Sandvar"
+            "name": "Leif Sandvar",
+            "email": "lsandvar@geeksquad.ca"
+        },
+        {
+            "name": "Gregory Huber",
+            "email": "ghuber@geeksquad.ca"
         }
     ],
     "repository": {
