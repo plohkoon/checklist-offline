@@ -145,26 +145,25 @@
 
                                     <th></th>
 
-                                    <form method = "post">
+                                    <td class = "mid">
 
-                                        <td class = "mid">
+                                      <form method = "post" id="update<%= i %>">
+                                        
+                                        <input type = "hidden" name = "uniqueID" value = "<%= data[i].id %>">
+                                        <input type = "hidden" name = "changeType" value = "edit">
+                                        <input type = "hidden" name = "identifier" value = "<%= data[i].note_id %>">
 
-                                            <input type = "hidden" name = "uniqueID" value = "<%= data[i].id %>">
-                                            <input type = "hidden" name = "changeType" value = "edit">
-                                            <input type = "hidden" name = "identifier" value = "<%= data[i].note_id %>">
-                                            <!-- <input type = "text" name = "notes" placeholder = "Updated Text" class = "input notes-update-look" value = "<%= data[i].note %>"> -->
+                                        <textarea value = "<%= data[i].note %>" name = "notes" class = "input notes-update-look" wrap = "soft"><%= data[i].note %></textarea>
 
-                                            <textarea value = "<%= data[i].note %>" name = "notes" class = "input notes-update-look" wrap = "soft"><%= data[i].note %></textarea>
+                                      </form>
 
-                                        </td>
+                                    </td>
 
-                                        <td class = "end">
+                                    <td class = "end">
 
-                                            <button type = "submit" class = "input">Update</button>
+                                        <button type = "submit" class = "input" form="update<%= i %>">Update</button>
 
-                                        </td>
-
-                                    </form>
+                                    </td>
 
                                 </tr>
 

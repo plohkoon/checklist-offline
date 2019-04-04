@@ -92,7 +92,7 @@ $(() => {
         if(key.keyCode === 13) {
 
             key.preventDefault();
-            $(this).closest("form").submit();
+            $(this).parent("form").submit();
 
         }
 
