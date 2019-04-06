@@ -78,110 +78,108 @@ const sqlEscape = (query) => {
 }
 //ensuring the database file exists in the user directory
 let dbPath = electron.app.getPath('userData') + "/NOTES.db";
-//attempts to write a file if does not exist
-fs.writeFile(dbPath, "", { flag : 'wx' }, (err) => {
-  //if file write errors out throws the error
-  if(err) {
-    console.log(err);
-  }
-  console.log("file exists");
-});
-//opens a connection to the data base as read write
-const db = new sqlite.Database(dbPath, sqlite.OPEN_READWRITE, (err) => {
-
-    if(err) {
-
-        console.log(err);
-        throw err;
-
-    }
-
-    console.log("connection successful");
-
-})
-//a query that will ensure the database to be used exists
-db.all("select name from sqlite_master where type = 'table' and name = 'notes'", [], (err, res) => {
-
-    if(err) {
-
-        console.log(err);
-        throw err;
-
-    }
-    //if nothing is returned from the query "notes" does not exist
-    if(res.length === 0) {
-        //sets the query to create the table
-        let sqlquery = "create table notes (id INTEGER PRIMARY KEY AUTOINCREMENT, note_id TEXT, note TEXT, date TEXT);";
-        //executes the table creation
-        db.all(sqlquery, [], (err, res) => {
-
-            if(err) {
-
-                console.log(err);
-                throw err;
-
-            }
-
-            console.log("notes table created");
-
-        });
-
-    }
-
-    console.log("Notes Table exists");
-
-});
-//looks for the trackers table
-db.all("select name from sqlite_master where type = 'table' and name = 'trackers'", [], (err, res) => {
-
-    if(err) {
-
-        console.log(err);
-        throw err;
-
-    }
-    //if doesnt exist creates table
-    if(res.length === 0) {
-
-        let sqlquery = "create table trackers (id INTEGER PRIMARY KEY, dataWipe TEXT, detractor TEXT, nps TEXT);";
-
-        db.all(sqlquery, [], (err, res) => {
-
-            if(err) {
-
-                console.log(err);
-                throw err;
-
-            };
-
-            console.log("Trackers table created");
-
-        });
-
-    }
-    //finds the tracker row
-    db.all("select * from trackers where id = 1;", [], (err, res) => {
-        //if the row does not exist creates row with default dates
-        if(res.length === 0) {
-
-            db.all("insert into trackers(id, dataWipe, detractor, nps) values (1, '2100-01-01', '2100-01-01', '2100-01-01')", [], (req, res) => {
-
+let db;
+//async function to open database and ensure tables is created
+function openDB() {
+  return new Promise((resolve, reject) => {
+    //pomisifies the database creation and writeFile function
+    const writeFile = util.promisify(fs.writeFile),
+          Database = (dbPath, sqlType) => {
+            return new Promise((res, rej) => {
+              //creates the database
+              let initializedDB = new sqlite.Database(dbPath, sqlType, (err) => {
+                //if errored then rejects promise
                 if(err) {
+                  console.log("failed to intialize databse connection");
+                  rej(err);
+                }
+                //if succeeds returns database
+                res(initializedDB);
+              });
+            });
+          }
 
+    //attempts to write a file if does not exist
+    writeFile(dbPath, "", { flag : 'wx' })
+      //logs the error, it should just generally be "file exists"
+      .catch(response => {
+        console.log(response);
+      })
+      //once file is confirmed created proceeds
+      .then (response => {
+        console.log("file is there");
+        //opens a connection to the data base as read write
+        db = Database(dbPath, sqlite.OPEN_READWRITE)
+          //if connection fails logs and throws error
+          .catch(err => {
+            console.log(err);
+            throw err;
+          })
+          //once connection succeeds runs queries to ensure tables exist properly
+          .then(result => {
+            //sets up an async function for all queries
+            const query = (queryString, values) => {
+              return new Promise((res, rej) => {
+                result.all(queryString, values, (err, queres) => {
+                  //if query fails and rejects the promise
+                  if(err) {
+                    console.log(err);
+                    rej(err);
+                  }
+                  //if query succeeds resolves to the query response
+                  res(queres);
+                })
+              })
+            }
+            //creates the notes table if its not there
+            query("create table  if not exists notes(id INTEGER PRIMARY KEY AUTOINCREMENT, note_id TEXT, note TEXT, date TEXT);", [])
+              .catch(err => {
+                console.log(err);
+              })
+              .then(res => {
+                console.log("notes table exists");
+              });
+            //creates the trackers table if its not there
+            query("create table if not exists trackers(id INTEGER PRIMARY KEY, dataWipe TEXT, detractor TEXT, nps TEXT);", [])
+              .catch(err => {
+                console.log(err);
+              })
+              .then(res => {
+                console.log("trackers table exists");
+                //once we know trackers exists ensures the lines are there
+                query("select * from trackers where id = 1;, []")
+                  //if something goes wrong logs and throws error
+                  .catch(err => {
                     console.log(err);
                     throw err;
+                  })
+                  //if the line does not exists initializes default values
+                  .then (res => {
+                    if(res.length === 0) {
+                      query("insert into trackers(id, dataWipe, detractor, nps) values (1, '2100-01-01', '2100-01-01', '2100-01-01')", [])
+                        //logs and throws if error
+                        .catch(err => {
+                          console.log(err);
+                          throw err;
+                        })
+                        //notes success if succeds
+                        .then(res => {
+                          console.log("made missing tracker row");
+                        });
+                    }
+                    console.log("tracker table good");
+                  });
+                  //once tables exist resolves the database to the original caller
+                  resolve(result);
+                });
 
-                }
+          });
 
-                console.log("made the missing row");
+      });
 
-            })
+  });
 
-        }
-
-    })
-
-});
+}
 
 //serves the local scripts, images and css
 serv.use(express.static(__dirname + "/public"));
@@ -386,23 +384,23 @@ const {app, BrowserWindow} = electron;
 //initializes the windows variable globally for use
 let win;
 
-const createWindow = () => {
+async function createWindow() {
     //opens the window and loads the root URL
     win = new BrowserWindow({width: 1300, height: 1100, icon: __dirname + "/public/Geek.ico"});
-
+    //loads the page
     win.loadURL("http://localhost:8080/");
     console.log("Window created, page loaded")
     //when the window is closed dereferences the variable and closes everything
     win.on('close', () => {
-
+        //drops memory of window
         win = null;
-
+        //closes server`
         openPort.close();
         console.log("Server port closed")
-
+        //closes DB
         db.close();
         console.log("DB connection close");
-
+        //fully quits app
         app.quit();
         console.log("Application successfully quit");
 
@@ -411,4 +409,9 @@ const createWindow = () => {
 }
 
 //when the app is ready and willing creates the window and connects to server
-app.on('ready', createWindow);
+app.on('ready', async () => {
+  //awaits database initialization
+  db = await openDB();
+  //once database opens and is created opens the app
+  createWindow();
+});
