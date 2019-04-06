@@ -1,6 +1,6 @@
 {
     "name": "Closing-Notes",
-    "version": "1.1.2",
+    "version": "1.2.0",
     "description": "An offline Checklist app",
     "main": "main.js",
     "build": {

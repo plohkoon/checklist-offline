@@ -7,7 +7,9 @@ const   url = require('url'),
         ejs = require('ejs'),
         sqlstring = require('sqlstring'),
         electron = require('electron'),
-        sqlite = require('sqlite3').verbose();
+        sqlite = require('sqlite3').verbose(),
+        fs = require('fs'),
+        util = require('util');
 //initiating server info
 const   express = require('express'),
         serv = express(),
@@ -74,9 +76,18 @@ const sqlEscape = (query) => {
     return cleansedQuery;
 
 }
-
+//ensuring the database file exists in the user directory
+let dbPath = electron.app.getPath('userData') + "/NOTES.db";
+//attempts to write a file if does not exist
+fs.writeFile(dbPath, "", { flag : 'wx' }, (err) => {
+  //if file write errors out throws the error
+  if(err) {
+    console.log(err);
+  }
+  console.log("file exists");
+});
 //opens a connection to the data base as read write
-const db = new sqlite.Database(__dirname + "/NOTES.db", sqlite.OPEN_READWRITE, (err) => {
+const db = new sqlite.Database(dbPath, sqlite.OPEN_READWRITE, (err) => {
 
     if(err) {
 
