@@ -38,12 +38,36 @@ const getDate = () => {
     return year + "-" + month + "-" + day;
 
 }
+//gets the number of day differences between 2 dates
+const dateDiff = (origin, current) => {
+    //converts string to date objects
+    const   originDate = new Date(origin),
+            currentDate = new Date(current),
 
+            originTime = originDate.getTime(),
+            currentTime = currentDate.getTime(),
+            //gets the difference between times and then converts it to days
+            diffTime = currentTime - originTime,
+            diffDay = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+    console.log(originDate);
+    console.log(currentDate);
+    console.log(diffDay);
+    //if the day is after last track returns it
+    if(diffDay >= 0) {
+        return diffDay.toString();
+    }
+    else {
+        return "n/a";
+    }
+
+}
+//simple function to clean sql query
 const sqlEscape = (query) => {
-
+    //changes how apostrphe escaping is handled as SQL does differently
     let     escapedQuery = query.replace("\'", "''"),
             cleansedQuery = sqlstring.escape(escapedQuery);
-
+    //cleans up after the sql escape gets a bit to OCD in its cleanse
     cleansedQuery = cleansedQuery.replace(/\\/g, "");
     console.log(cleansedQuery);
 
@@ -76,7 +100,7 @@ db.all("select name from sqlite_master where type = 'table' and name = 'notes'",
     //if nothing is returned from the query "notes" does not exist
     if(res.length === 0) {
         //sets the query to create the table
-        let sqlquery = "create table notes (id INTEGER PRIMARY KEY AUTOINCREMENT, note_id TEXT, note TEXT, date Text);";
+        let sqlquery = "create table notes (id INTEGER PRIMARY KEY AUTOINCREMENT, note_id TEXT, note TEXT, date TEXT);";
         //executes the table creation
         db.all(sqlquery, [], (err, res) => {
 
@@ -87,18 +111,110 @@ db.all("select name from sqlite_master where type = 'table' and name = 'notes'",
 
             }
 
-            console.log("database created");
+            console.log("notes table created");
 
-        })
+        });
 
     }
 
-    console.log("Database exists");
+    console.log("Notes Table exists");
 
 });
+//looks for the trackers table
+db.all("select name from sqlite_master where type = 'table' and name = 'trackers'", [], (err, res) => {
+
+    if(err) {
+
+        console.log(err);
+        throw err;
+
+    }
+    //if doesnt exist creates table
+    if(res.length === 0) {
+
+        let sqlquery = "create table trackers (id INTEGER PRIMARY KEY, dataWipe TEXT, detractor TEXT, nps TEXT);";
+
+        db.all(sqlquery, [], (err, res) => {
+
+            if(err) {
+
+                console.log(err);
+                throw err;
+
+            };
+
+            console.log("Trackers table created");
+
+        });
+
+    }
+    //finds the tracker row
+    db.all("select * from trackers where id = 1;", [], (err, res) => {
+        //if the row does not exist creates row with default dates
+        if(res.length === 0) {
+
+            db.all("insert into trackers(id, dataWipe, detractor, nps) values (1, '2100-01-01', '2100-01-01', '2100-01-01')", [], (req, res) => {
+
+                if(err) {
+
+                    console.log(err);
+                    throw err;
+
+                }
+
+                console.log("made the missing row");
+
+            })
+
+        }
+
+    })
+
+});
+
 //serves the local scripts, images and css
 serv.use(express.static(__dirname + "/public"));
+//a route to reset a tracked value
+serv.get('/:date/reset', (req, res) => {
 
+    console.log("got a reset request for " + req.query.stat);
+    //pulls relevant information from req
+    const   changeDate = req.params.date,
+            changeType = req.query.stat;
+
+    console.log(changeDate);
+    console.log("got a reset request for " + changeType);
+    //if not a date redirects to todays date
+    if(!changeDate.match('[0-9]{4}-[0-9]{2}-[0-9]{2}')) {
+
+        console.log("bad reset request, not a date redirecting to todays date");
+        res.redirect("/" + getDate());
+
+    }
+    //if not a valid change type does nothing
+    if(changeType != "dataWipe" || changeType != "detractor" || changeType != "nps") {
+
+        console.log("bad reset request, not a resettable value");
+        res.redirect("/" + changeDate);
+
+    }
+    //updates the stat with the current date
+    db.all("update trackers set " + changeType + " = '" + changeDate + "' where id = 1;", (err, result) => {
+
+        if(err) {
+
+            console.log(err);
+            throw err;
+
+        }
+
+
+
+    });
+    //redirects to rerender page
+    res.redirect("/" + changeDate);
+
+});
 //main route anytime there is a date in the path
 serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
 
@@ -113,7 +229,7 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
         else {
             //extracts the date of the request from the path
             date = (req.path).slice(1,req.path.length);
-            // where date = " + date + ";
+            //primary query to get the days notes
             db.all("select id, note_id, note from notes where date = '" + date + "';", (err, rows) => {
 
                 if(err) {
@@ -122,18 +238,31 @@ serv.route('/[0-9]{4}-[0-9]{2}-[0-9]{2}')
                     throw err;
 
                 }
+                //secondary query to get the tracked stats
+                db.all("select dataWipe, detractor, nps from trackers where id = 1;", (err, trackers) => {
+                    //creates the set of tracked stats
+                    let trackedSet = {
 
-                let data = {
+                        dataWipe: dateDiff(trackers[0].dataWipe, date),
+                        detractor: dateDiff(trackers[0].detractor, date),
+                        nps: dateDiff(trackers[0].nps, date)
 
-                                date: date,
+                    },
+                    //creates the data JSON object with the tracked set, date and data
+                    data = {
 
-                                data: rows
+                                    date: date,
+                                    data: rows,
 
-                            }
+                                    trackers: trackedSet
 
-                console.log(data);
+                                }
 
-                res.render(__dirname + '/views/main.ejs', data);
+                    console.log(data);
+                    //renders teh page
+                    res.render(__dirname + '/views/main.ejs', data);
+
+                })
 
             });
 
@@ -220,7 +349,9 @@ gets todays date in the correct format and redirects to the respective page
 */
 serv.get('/', (req, res) => {
     //fall back for when the root is empty
-    console.log("Got root request rendering" + '/' + getDate())
+    console.log("Got root request rendering" + '/' + getDate());
+    //temp SQL query that resets tracked stats on root load
+    //db.all("update trackers set dataWipe = '2100-01-01', detractor = '2100-01-01', nps = '2100-01-01' where id = 1;");
 
     res.redirect('/' + getDate());
 
@@ -256,15 +387,12 @@ const createWindow = () => {
         win = null;
 
         openPort.close();
-
         console.log("Server port closed")
 
         db.close();
-
         console.log("DB connection close");
 
         app.quit();
-
         console.log("Application successfully quit");
 
     });

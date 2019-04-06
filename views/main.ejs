@@ -3,13 +3,15 @@
 <html>
 
     <head>
-
+        <!-- This is to enable Page Scaling -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!--   =====  This is the the page stylesheets ====== -->
         <link rel = "stylesheet" type = "text/css" href = "styles.css">
-
+        <!--   =====  This is the the page Icons ======   -->
         <link rel = "shortcut icon" href = "Geek.ico" type = "image/x-icon">
-
-        <link href="https://fonts.googleapis.com/css?family=Orbitron|Inconsolata|PT+Serif|Teko" rel="stylesheet">
-
+        <!--   =====  This is the the page fonts ======   -->
+        <link href="https://fonts.googleapis.com/css?family=Orbitron|Inconsolata|PT+Serif|Teko|VT323" rel="stylesheet">
+        <!--   =====  This is the the page Scripts ======   -->
         <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <script>window.$ = window.jquery = require("jquery");</script>
@@ -60,7 +62,7 @@
 
                     <div class = "title">
 
-                        <h1 class = "title">Geek Squad Notes</h1>
+                        <h1 class = "title"><span class="mediumSize">Geek</span> <span class="fullSize">Squad </span> <span class="smol"> Notes</span></h1>
 
                     </div>
 
@@ -173,7 +175,62 @@
 
                     <% } %>
 
-                <!-- </table> -->
+                <div class = "bottom-info">
+
+                    <div class = "info-box">
+
+                        <h4>Days Since Data Wipe</h4>
+                        <p class="beanCounter"><%= trackers.dataWipe %></p>
+
+                        <form action="/<%= date %>/reset">
+
+                            <input type="hidden" name="stat" value="dataWipe">
+                            <button type="submit" class="input" >
+
+                                Reset Counter
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                    <div class = "info-box">
+
+                        <h4>Days Since Detractor</h4>
+                        <p class="beanCounter"><%= trackers.detractor %></p>
+
+                        <form action="/<%= date %>/reset">
+                            <input type="hidden" name="stat" value="detractor">
+                            <button type="submit" class="input" >
+
+                                Reset Counter
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                    <div class = "info-box">
+
+                        <h4>Days Since NPS</h4>
+                        <p class="beanCounter"><%= trackers.nps %></p>
+
+                        <form action="/<%= date %>/reset">
+
+                            <input type="hidden" name="stat" value="nps">
+                            <button type="submit" class="input" >
+
+                                Reset Counter
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
 
         </div>
 
@@ -190,9 +247,5 @@
         </div>
 
     </body>
-
-    <footer>
-
-    </footer>
 
 </html>

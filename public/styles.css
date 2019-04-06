@@ -453,5 +453,65 @@ textarea {
     margin: 5px;
     border: 0px;
 
+}
 
+.bottom-info {
+
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+.info-box {
+
+    width: 30%;
+    height: 200px;
+    margin: 10px;
+    padding: 10px;
+    flex: 1;
+
+    background-color:  #eee;
+    text-align: center;
+
+}
+
+.info-box h4 {
+
+    align-self: flex-start;
+
+}
+
+.info-box p {
+
+    align-self: center;
+
+}
+
+.info-box button {
+
+    align-self: flex-end;
+
+}
+
+@media only screen and (max-width: 720px) {
+    .fullSize {
+    display: none;
+    }
+}
+@media only screen and (max-width: 500px){
+
+    .mediumSize {
+        display: none;
+    }
+}
+.smol {
+
+}
+.beanCounter {
+    font-family: 'VT323', monospace;
+    font-size: 30px;
 }
