@@ -147,7 +147,7 @@ function openDB() {
               .then(res => {
                 console.log("trackers table exists");
                 //once we know trackers exists ensures the lines are there
-                query("select * from trackers where id = 1;, []")
+                query("select * from trackers where id = 1;", [])
                   //if something goes wrong logs and throws error
                   .catch(err => {
                     console.log(err);
